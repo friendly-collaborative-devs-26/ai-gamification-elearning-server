@@ -1,0 +1,12 @@
+root = "."
+testdata_dir = "testdata"
+tmp_dir = "tmp"
+
+[build]
+  cmd = "go build -o ./tmp/main ./cmd/main.go"
+  
+  bin = "./tmp/main"
+  
+  exclude_dir = ["assets", "tmp", "vendor", "testdata"]
+  include_ext = ["go", "tpl", "tmpl", "html", "yaml", "yml", "env"]
+  delay = 1000 # ms
