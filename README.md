@@ -21,27 +21,27 @@ This project is **free to use and open to contributions**. See the [license](#li
 
 ## 🗺️ Roadmap highlights
 
-| Phase | Scope |
-|---|---|
-| v1 | Web & backend development tracks |
-| v2 | AI code reviewer integration |
-| v3 | Mobile development track |
-| v4 | AI / ML development track |
+| Phase | Scope                            |
+| ----- | -------------------------------- |
+| v1    | Web & backend development tracks |
+| v2    | AI code reviewer integration     |
+| v3    | Mobile development track         |
+| v4    | AI / ML development track        |
 
 ---
 
 ## ⚙️ Tech stack
 
-| Concern | Technology |
-|---|---|
-| Language | Go 1.22+ |
-| HTTP framework | [Gin](https://github.com/gin-gonic/gin) |
-| ORM | [GORM](https://gorm.io) |
-| Cache | Redis |
-| Messaging | Kafka |
-| AI integration | Anthropic API (Claude) |
-| Logger | [zap](https://github.com/uber-go/zap) |
-| Validation | [go-playground/validator](https://github.com/go-playground/validator) |
+| Concern        | Technology                                                            |
+| -------------- | --------------------------------------------------------------------- |
+| Language       | Go 1.22+                                                              |
+| HTTP framework | [Gin](https://github.com/gin-gonic/gin)                               |
+| ORM            | [GORM](https://gorm.io)                                               |
+| Cache          | Redis                                                                 |
+| Messaging      | Kafka                                                                 |
+| AI integration | Anthropic API (Claude)                                                |
+| Logger         | [zap](https://github.com/uber-go/zap)                                 |
+| Validation     | [go-playground/validator](https://github.com/go-playground/validator) |
 
 ---
 
@@ -55,6 +55,16 @@ cd ai-gamification-elearning-server
 # Copy and configure environment
 cp .env.sample .env.local
 # Edit .env with your values (optional: create .env.local for local overrides)
+
+# Copy the next code on your .git/hooks/pre-commit file:
+#!/bin/sh
+echo "▶ running dependency age check..."
+go run ./cmd/depcheck
+if [ $? -ne 0 ]; then
+  echo "❌ Commit aborted: a dependency failed the minimum release age policy."
+  echo "   Run 'make depcheck-warn' to see details."
+  exit 1
+fi
 
 # Run the server
 make run

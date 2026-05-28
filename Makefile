@@ -32,7 +32,25 @@ clean:
 	@echo "$(GREEN)✔ clean complete$(RESET)"
 
 .PHONY: tidy
-tidy:
+tidy: depcheck
 	@echo "$(GREEN)▶ tidying go.mod and go.sum...$(RESET)"
 	@go mod tidy
 	@echo "$(GREEN)✔ go.mod tidy complete$(RESET)"
+
+.PHONY: depcheck
+depcheck:
+	@echo "$(GREEN)▶ checking for dependency issues...$(RESET)"
+	@go mod verify
+	@echo "$(GREEN)▶ checking minimum release age...$(RESET)"
+	@go run ./cmd/depcheck
+	@echo "$(GREEN)✔ dependency check complete$(RESET)"
+
+.PHONY: depcheck-warn
+depcheck-warn:
+	@echo "$(YELLOW)▶ checking minimum release age (warn only)...$(RESET)"
+	@go mod verify
+	@DEPCHECK_MODE=warn go run ./cmd/depcheck
+	@echo "$(YELLOW)✔ age check complete (warnings only)$(RESET)"
+
+.PHONY: ci
+ci: depcheck build
