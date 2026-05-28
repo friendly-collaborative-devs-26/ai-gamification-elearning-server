@@ -1,0 +1,26 @@
+# Dependency Age Gate Configuration
+# ─────────────────────────────────────────────────────────────────────────────
+# minimum_age_days: Number of days a new dependency version must exist before
+#   it's allowed into the build. Protects against "typosquatting" and supply-
+#   chain attacks where a malicious package is published and immediately pulled.
+#
+#   Recommended values:
+#     1   – blocks same-day publishes (default, fast CI)
+#     3   – blocks weekend / off-hours pushes
+#     7   – conservative; weekly cadence acceptable for most teams
+#
+# check_mode:
+#   "block" – exit 1 when a module is too new (default, use in CI)
+#   "warn"  – print a warning but continue (use during migration)
+#
+# exceptions:
+#   List of module paths that bypass the age check. Use only for known-safe
+#   modules where you own the package or have verified the release manually.
+# ─────────────────────────────────────────────────────────────────────────────
+
+minimum_age_days: 1
+check_mode: block
+
+exceptions:
+  # Add modules here to bypass the age check, e.g.:
+  # - github.com/your-org/your-private-module
