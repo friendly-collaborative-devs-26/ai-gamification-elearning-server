@@ -12,10 +12,11 @@ import (
 )
 
 type Config struct {
-	App    App           `mapstructure:"app"`
-	Logger logger.Config `mapstructure:"logger"`
-	Server Server        `mapstructure:"server"`
-	CORS   CORS          `mapstructure:"cors"`
+	App      App           `mapstructure:"app"`
+	Logger   logger.Config `mapstructure:"logger"`
+	Server   Server        `mapstructure:"server"`
+	CORS     CORS          `mapstructure:"cors"`
+	Database Database      `mapstructure:"database"`
 }
 
 type App struct {
@@ -38,6 +39,18 @@ type CORS struct {
 	AllowedHeaders   []string `mapstructure:"allowed_headers"`
 	AllowCredentials bool     `mapstructure:"allow_credentials"`
 	MaxAgeSeconds    int      `mapstructure:"max_age_seconds"`
+}
+
+type Database struct {
+	Host                string `mapstructure:"host"`
+	Port                int    `mapstructure:"port"`
+	User                string `mapstructure:"user"`
+	Password            string `mapstructure:"password"`
+	Name                string `mapstructure:"name"`
+	SSLMode             string `mapstructure:"ssl_mode"`
+	MaxOpenConns        int    `mapstructure:"max_open_conns"`
+	MaxIdleConns        int    `mapstructure:"max_idle_conns"`
+	ConnMaxLifetimeSecs int    `mapstructure:"conn_max_lifetime_secs"`
 }
 
 func Load() (*Config, error) {

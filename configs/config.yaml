@@ -33,3 +33,14 @@ cors:
     - "X-Request-ID"
   allow_credentials: true
   max_age_seconds: 86400
+
+database:
+  host: "localhost"
+  port: 5432
+  user: "postgres"
+  password: "postgres"
+  name: "gamification_db"
+  ssl_mode: "disable"
+  max_open_conns: 25
+  max_idle_conns: 10
+  conn_max_lifetime_secs: 300

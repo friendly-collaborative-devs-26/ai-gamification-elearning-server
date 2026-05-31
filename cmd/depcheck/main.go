@@ -12,20 +12,17 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// Config holds the depcheck configuration
 type Config struct {
 	MinimumAgeDays int      `yaml:"minimum_age_days"`
 	Exceptions     []string `yaml:"exceptions"`
 	CheckMode      string   `yaml:"check_mode"`
 }
 
-// ModuleInfo holds proxy response data
 type ModuleInfo struct {
 	Version string    `json:"Version"`
 	Time    time.Time `json:"Time"`
 }
 
-// Result holds the check result for a single module
 type Result struct {
 	Module    string
 	Version   string
@@ -63,7 +60,6 @@ func loadConfig() Config {
 
 	data, err := os.ReadFile(configPath)
 	if err != nil {
-		// Config not found - use defaults
 		return cfg
 	}
 
@@ -95,7 +91,6 @@ func parseGoMod(path string) (map[string]string, error) {
 			continue
 		}
 
-		// Single-line require
 		if strings.HasPrefix(line, "require ") {
 			line = strings.TrimPrefix(line, "require ")
 			inRequire = false
@@ -135,7 +130,7 @@ func checkModules(modules map[string]string, cfg Config) []Result {
 		info, err := fetchModuleInfo(mod, ver)
 		if err != nil {
 			r.Reason = fmt.Sprintf("fetch error: %v", err)
-			r.Passes = cfg.CheckMode == "warn" // warn mode passes on error
+			r.Passes = cfg.CheckMode == "warn"
 			results = append(results, r)
 			continue
 		}
