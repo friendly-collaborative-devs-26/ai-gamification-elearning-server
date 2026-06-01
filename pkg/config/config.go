@@ -70,6 +70,16 @@ func Load() (*Config, error) {
 	v.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	v.AutomaticEnv()
 
+	v.BindEnv("database.host", "DB_HOST")
+	v.BindEnv("database.port", "DB_PORT")
+	v.BindEnv("database.user", "DB_USER")
+	v.BindEnv("database.password", "DB_PASSWORD")
+	v.BindEnv("database.name", "DB_NAME")
+	v.BindEnv("database.ssl_mode", "DB_SSL_MODE")
+	v.BindEnv("database.max_open_conns", "DB_MAX_OPEN_CONNS")
+	v.BindEnv("database.max_idle_conns", "DB_MAX_IDLE_CONNS")
+	v.BindEnv("database.conn_max_lifetime_secs", "DB_CONN_MAX_LIFETIME_SECONDS")
+
 	if err := v.ReadInConfig(); err != nil {
 		return nil, fmt.Errorf("config: reading config.yaml: %w", err)
 	}
@@ -131,10 +141,8 @@ func loadDotEnvLocal(path string) error {
 			}
 		}
 
-		if _, exists := os.LookupEnv(key); !exists {
-			if err := os.Setenv(key, val); err != nil {
-				return fmt.Errorf("line %d: setting %s: %w", i+1, key, err)
-			}
+		if err := os.Setenv(key, val); err != nil {
+			return fmt.Errorf("line %d: setting %s: %w", i+1, key, err)
 		}
 	}
 

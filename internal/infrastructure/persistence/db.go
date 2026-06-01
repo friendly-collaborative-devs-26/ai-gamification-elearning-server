@@ -37,11 +37,11 @@ func NewDB(cfg *config.Config, log *zap.Logger) (*gorm.DB, error) {
 
 func buildDSN(cfg *config.Config) string {
 	return fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s TimeZone=UTC",
-		cfg.Database.Host,
-		cfg.Database.Port,
+		"postgresql://%s:%s@%s:%d/%s?sslmode=%s&TimeZone=UTC",
 		cfg.Database.User,
 		cfg.Database.Password,
+		cfg.Database.Host,
+		cfg.Database.Port,
 		cfg.Database.Name,
 		cfg.Database.SSLMode,
 	)

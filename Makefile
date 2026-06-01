@@ -2,6 +2,7 @@ APP_NAME    := ai-gamification-elearning-server
 BINARY_DIR  := tmp
 BINARY      := $(BINARY_DIR)/main
 CMD_PATH    := ./cmd/main.go
+MIGRATE_PATH := ./cmd/migrate
 
 GREEN  := \033[1;32m
 YELLOW := \033[1;33m
@@ -24,6 +25,12 @@ build:
 	@mkdir -p $(BINARY_DIR)
 	@go build -o $(BINARY) $(CMD_PATH)
 	@echo "$(GREEN)✔ build complete: $(BINARY)$(RESET)"
+
+.PHONY: migrate
+migrate:
+	@echo "$(GREEN)▶ running database migrations...$(RESET)"
+	@PROJECT_ROOT=$(shell pwd) go run $(MIGRATE_PATH)
+	@echo "$(GREEN)✔ migrations complete$(RESET)"
 
 .PHONY: clean
 clean:
