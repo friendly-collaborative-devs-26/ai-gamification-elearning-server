@@ -168,3 +168,7 @@ func String(key, val string) Field { return zap.String(key, val) }
 func Int(key string, val int) Field { return zap.Int(key, val) }
 
 func Bool(key string, val bool) Field { return zap.Bool(key, val) }
+
+func Get() *zap.Logger {
+	return g().zap
+}
